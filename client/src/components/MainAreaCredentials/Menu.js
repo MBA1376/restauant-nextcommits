@@ -39,7 +39,7 @@ class Menu extends Component {
         const {foods} = this.props.menu;
         
         const foodItems = foods.map(food => (
-           <Food key={food._id} name={food.name} description={food.description} price={food.price}/> 
+           <Food key={food._id} id={food._id} name={food.name} description={food.description} price={food.price}/> 
         ))
         
         return (

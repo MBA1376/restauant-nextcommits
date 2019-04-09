@@ -1,4 +1,8 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import {connect} from 'react-redux';
+
+import {getCart} from '../../actions/menuActions';
 
 class Food extends Component {
     constructor(props) {
@@ -16,6 +20,13 @@ class Food extends Component {
             border : "1px solid red" ,
             backgroundColor : "white"
         }
+
+        this.onClick = this.onClick.bind(this);
+    }
+
+    onClick(e) {
+      e.preventDefault();
+      this.props.getCart();
     }
   render() {
     return (
@@ -29,7 +40,7 @@ class Food extends Component {
         <div className="row">
             <div className="col-md-11 price">{this.props.price}</div>
             <div className="col-md-1">
-                <button className="button" style={this.buttonStyle}>+</button>
+                <button onClick={this.onClick} className="button" style={this.buttonStyle}>+</button>
             </div>
         </div>
       </div>
@@ -37,4 +48,11 @@ class Food extends Component {
   }
 }
 
-export default Food;
+Food.propTypes = {
+
+}
+const mapStateToProps = state => ({
+  menu : state.menu
+});
+
+export default connect(mapStateToProps , {getCart})(Food);

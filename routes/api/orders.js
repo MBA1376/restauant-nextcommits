@@ -3,6 +3,8 @@ const router = express.Router();
 const passport = require('passport');
 const mongoose = require('mongoose');
 
+const frequenceOfFoods = require('../../utils/frequenceOfFoods');
+
 /**load Order model */
 const Order = require('../../models/Order');
 /**load Food model */
@@ -86,6 +88,29 @@ router.post('/addToCart/:foodId' , passport.authenticate('jwt' , {session : fals
             }
         })
         .catch( err => console.log(err));
+});
+
+/* @route   POST api/restaurant/getCart  */
+/* @desc    get cart from order for login user */
+/* @access  Private */
+router.get('/getCart' , passport.authenticate('jwt' , {session : false}) , (req , res) => {
+    
+    const frequencesAndFoods = {};
+
+    Order.findOne({user: req.user._id})
+        .then(order => {
+            frequencesAndFoods.frequenceTable =frequenceOfFoods(order.foods);
+            return order.foods;
+        })
+        .then(foodIds => 
+            Food.find()
+            .where('_id')
+            .in(foodIds)
+            .exec((err , records) => {
+                frequencesAndFoods.foods = records;
+                res.json(frequencesAndFoods);
+            })
+        )
 });
 
 

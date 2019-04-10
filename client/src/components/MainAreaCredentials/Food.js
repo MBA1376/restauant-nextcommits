@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 
-import {getCart} from '../../actions/menuActions';
+import {addToCart} from '../../actions/menuActions';
 
 class Food extends Component {
     constructor(props) {
@@ -26,7 +26,7 @@ class Food extends Component {
 
     onClick(e) {
       e.preventDefault();
-      this.props.getCart();
+      this.props.addToCart(this.props.id);
     }
   render() {
     return (
@@ -49,10 +49,10 @@ class Food extends Component {
 }
 
 Food.propTypes = {
-
+  addToCart : PropTypes.func.isRequired
 }
 const mapStateToProps = state => ({
   menu : state.menu
 });
 
-export default connect(mapStateToProps , {getCart})(Food);
+export default connect(mapStateToProps , {addToCart})(Food);

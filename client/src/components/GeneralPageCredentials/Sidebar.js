@@ -1,4 +1,8 @@
 import React, { Component } from 'react';
+import {connect} from 'react-redux';
+import PropTypes from 'prop-types';
+
+import {getCart} from '../../actions/menuActions';
 
 import figCartEmpty from '../../img/fig-cart-empty.png';
 
@@ -11,6 +15,11 @@ class Sidebar extends Component {
       height : "230px" 
     }
   }
+
+  componentDidMount() {
+    this.props.getCart();
+  }
+
   render() {
     return (
       <div className="container sidebar" >
@@ -23,4 +32,12 @@ class Sidebar extends Component {
   }
 }
 
-export default Sidebar;
+Sidebar.propTypes = {
+  getCart : PropTypes.func.isRequired
+}
+
+const mapStateToProps = state => ({
+  menu : state.menu
+});
+
+export default connect(mapStateToProps , {getCart})(Sidebar);

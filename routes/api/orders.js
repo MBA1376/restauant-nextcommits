@@ -3,7 +3,9 @@ const router = express.Router();
 const passport = require('passport');
 const mongoose = require('mongoose');
 
+/**load utils methods */
 const frequenceOfFoods = require('../../utils/frequenceOfFoods');
+const subtractQuantity = require('../../utils/subtractQuantity');
 
 /**load Order model */
 const Order = require('../../models/Order');
@@ -112,6 +114,21 @@ router.get('/getCart' , passport.authenticate('jwt' , {session : false}) , (req 
             })
         )
 });
+
+/* @route   POST api/restaurant/subQuantity/:id  */
+/* @desc    subtract quantity order for login user */
+/* @access  Private */
+router.delete('/subQuantity/:id' , passport.authenticate('jwt' , {session:false}) , (req , res) => {
+    Order.findOne({user : req.user._id})
+        .then(order => {
+            const filteredFoods = subtractQuantity(order.foods , req.params.id);
+            order.foods = filteredFoods;
+            return order.save();
+        })
+        .then(order => res.json(order))
+        .catch(err => console.log(err));
+});
+
 
 
 module.exports = router;

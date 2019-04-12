@@ -16,8 +16,8 @@ class GeneralPage extends Component {
     return (
           <Container fluid={true} style={this.style}>
               <Row>
-                <Col lg={10}><MainArea /></Col>
-                <Col lg={2}><Sidebar /></Col>
+                <Col style={{paddingLeft:'0px'}} lg={10}><MainArea /></Col>
+                <Col style={{paddingRight:'0px' , paddingLeft:'0px'}} lg={2}><Sidebar /></Col>
               </Row>
           </Container>
     )

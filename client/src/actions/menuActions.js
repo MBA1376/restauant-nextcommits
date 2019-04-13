@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { GET_FOODS , ADD_TO_CART , GET_CART ,  GET_ERRORS, SUB_QUANTITY} from './types';
+import { GET_FOODS , ADD_TO_CART , GET_CART ,  GET_ERRORS, SUB_QUANTITY , REMOVE_ITEM} from './types';
 
 export const getFoods = () => dispatch => {
     axios.get('/api/restaurant/getFoods')
@@ -40,4 +40,13 @@ export const subQuantity = id => dispatch => {
             payload : id
         }))
         // .catch(err => console.log(err.response.data));
+}
+
+export const removeItem = id => dispatch => {
+    axios.delete(`/api/orders/removeItem/${id}`)
+        .then(res => dispatch({
+            type:REMOVE_ITEM ,
+            payload : id
+        }))
+        .catch(err => console.log(err.response.data));
 }

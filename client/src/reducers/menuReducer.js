@@ -1,4 +1,4 @@
-import {GET_FOODS , ADD_TO_CART, GET_CART , SUB_QUANTITY } from '../actions/types';
+import {GET_FOODS , ADD_TO_CART, GET_CART , SUB_QUANTITY ,REMOVE_ITEM} from '../actions/types';
 
 const initialState = {
     foods : [] ,
@@ -58,6 +58,19 @@ export default function(state = initialState , action) {
                     ...state,
                     total: newTotal
                 }
+            }
+
+        case REMOVE_ITEM:
+            let itemToRemove= state.addedItems.find(item=> action.payload === item._id)
+            let new_items = state.addedItems.filter(item=> action.payload !== item._id)
+            
+            //calculating the total
+            let newTotal = state.total - (itemToRemove.price * itemToRemove.quantity )
+            console.log(itemToRemove)
+            return{
+                ...state,
+                addedItems: new_items,
+                total: newTotal
             }
 
         case GET_CART :

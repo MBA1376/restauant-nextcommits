@@ -15,7 +15,7 @@ const Food = require('../../models/Food');
 const Address = require('../../models/Address');
 
 
-/* @route   POST api/restaurant/registerOrder  */
+/* @route   POST api/orders/registerOrder  */
 /* @desc    add order for login user */
 /* @access  Private */
 router.post('/registerOrder' , passport.authenticate('jwt' , {session : false}) , (req , res) => {
@@ -65,7 +65,7 @@ router.post('/registerOrder' , passport.authenticate('jwt' , {session : false}) 
     */
 }); 
 
-/* @route   POST api/restaurant/addToCart/:foodId  */
+/* @route   POST api/orders/addToCart/:foodId  */
 /* @desc    add food to order for login user */
 /* @access  Private */
 router.post('/addToCart/:foodId' , passport.authenticate('jwt' , {session : false}) , (req , res) => {
@@ -92,7 +92,7 @@ router.post('/addToCart/:foodId' , passport.authenticate('jwt' , {session : fals
         .catch( err => console.log(err));
 });
 
-/* @route   POST api/restaurant/getCart  */
+/* @route   POST api/orders/getCart  */
 /* @desc    get cart from order for login user */
 /* @access  Private */
 router.get('/getCart' , passport.authenticate('jwt' , {session : false}) , (req , res) => {
@@ -115,7 +115,7 @@ router.get('/getCart' , passport.authenticate('jwt' , {session : false}) , (req 
         )
 });
 
-/* @route   POST api/restaurant/subQuantity/:id  */
+/* @route   POST api/orders/subQuantity/:id  */
 /* @desc    subtract quantity order for login user */
 /* @access  Private */
 router.delete('/subQuantity/:id' , passport.authenticate('jwt' , {session:false}) , (req , res) => {
@@ -129,6 +129,20 @@ router.delete('/subQuantity/:id' , passport.authenticate('jwt' , {session:false}
         .catch(err => console.log(err));
 });
 
+/* @route   POST api/orders/removeItem/:id  */
+/* @desc    remove food from order for login user */
+/* @access  Private */
+router.delete('/removeItem/:id' , passport.authenticate('jwt' , {session:false}) , (req , res) => {
+    Order.findOne({user:req.user._id})
+        .then(order => {
+            const filteredFoods = order.foods.filter(function(item) {
+                return item._id != req.params.id;
+            });
+            order.foods = filteredFoods;
+            order.save().then(order => res.json(order));
+        })
+        .catch(err => console.log(err));
+})
 
 
 module.exports = router;

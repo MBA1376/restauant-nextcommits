@@ -2,13 +2,15 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 
-import {addToCart , subQuantity} from '../../actions/menuActions';
+import {addToCart , subQuantity , removeItem} from '../../actions/menuActions';
+import removeIcon from '../../img/remove.png';
 
 class OrderedFood extends Component {
     constructor(props) {
         super(props);
         this.addToCart = this.addToCart.bind(this);
         this.subQuantity = this.subQuantity.bind(this);
+        this.removeItem = this.removeItem.bind(this);
     }
 
     addToCart() {
@@ -16,6 +18,9 @@ class OrderedFood extends Component {
     }
     subQuantity() {
         this.props.subQuantity(this.props.id);
+    }
+    removeItem(e) {
+        this.props.removeItem(this.props.id);
     }
 
     render() {
@@ -26,6 +31,7 @@ class OrderedFood extends Component {
                     <div className="row" style={{width:'320px'}}>
                         <div className="col-md-5 text-left" style={{marginRight:'7px'}}>
                             <div className="row">
+                                <a href="#" onClick={this.removeItem}><img src={removeIcon}></img></a>
                                 <div style={{fontSize:'13px'}} className="col-sm-12"><h6>{this.props.name}</h6></div>
                             </div>
                             <div className="row" style={{marginTop:'-10px'}}>
@@ -65,11 +71,12 @@ class OrderedFood extends Component {
 OrderedFood.propTypes = {
     menu : PropTypes.object.isRequired ,
     addToCart : PropTypes.func.isRequired ,
-    subQuantity : PropTypes.func.isRequired
+    subQuantity : PropTypes.func.isRequired ,
+    removeItem : PropTypes.func.isRequired
 }
 
 const mapStateToProps = state => ({
     menu: state.menu
 });
 
-export default connect(mapStateToProps , {addToCart , subQuantity})(OrderedFood);
+export default connect(mapStateToProps , {addToCart , subQuantity , removeItem})(OrderedFood);

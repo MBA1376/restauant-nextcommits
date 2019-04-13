@@ -1,4 +1,4 @@
-import {GET_FOODS , ADD_TO_CART, GET_CART } from '../actions/types';
+import {GET_FOODS , ADD_TO_CART, GET_CART , SUB_QUANTITY } from '../actions/types';
 
 const initialState = {
     foods : [] ,
@@ -37,6 +37,27 @@ export default function(state = initialState , action) {
                     total : newTotal
                 }
                 
+            }
+
+        case SUB_QUANTITY :
+            let _addedItem = state.foods.find(item=> item._id === action.payload) 
+            //if the qt == 0 then it should be removed
+            if(_addedItem.quantity === 1){
+                let new_items = state.addedItems.filter(item=>item._id !== action.payload)
+                let newTotal = state.total - _addedItem.price;
+                return{
+                    ...state,
+                    addedItems: new_items,
+                    total: newTotal
+                }
+            }
+            else {
+                _addedItem.quantity -= 1
+                let newTotal = state.total - _addedItem.price
+                return{
+                    ...state,
+                    total: newTotal
+                }
             }
 
         case GET_CART :

@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { GET_FOODS , ADD_TO_CART , GET_CART ,  GET_ERRORS} from './types';
+import { GET_FOODS , ADD_TO_CART , GET_CART ,  GET_ERRORS, SUB_QUANTITY} from './types';
 
 export const getFoods = () => dispatch => {
     axios.get('/api/restaurant/getFoods')
@@ -28,6 +28,15 @@ export const addToCart = (id) => dispatch => {
     axios.post(`/api/orders/addToCart/${id}`)
         .then(res => dispatch({
             type : ADD_TO_CART ,
+            payload : id
+        }))
+        // .catch(err => console.log(err.response.data));
+}
+
+export const subQuantity = id => dispatch => {
+    axios.delete(`/api/orders/subQuantity/${id}`)
+        .then(res => dispatch({
+            type:SUB_QUANTITY ,
             payload : id
         }))
         // .catch(err => console.log(err.response.data));

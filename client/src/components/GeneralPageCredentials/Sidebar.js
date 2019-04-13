@@ -23,7 +23,7 @@ class Sidebar extends Component {
   }
 
   render() {
-    const {addedItems} = this.props.menu;
+    const {addedItems , total} = this.props.menu;
     let sidebarContent;
     let foodItems = addedItems.map(item => <OrderedFood key={item._id} id={item._id} name={item.name} price={item.price} quantity={item.quantity}/>);
     console.log(foodItems);
@@ -35,13 +35,13 @@ class Sidebar extends Component {
         </div>
       ) : (
           <div className="row text-center" style={{color:'gray'}}>
-            {/* <OrderedFood /> */}
-            {foodItems}
-                <div className="col-md-6 text-left" style={{marginTop:'13px',marginRight:'13px'}}>هزینه کل</div>
-                <div className="col-md-4 text-left" style={{marginTop:'13px'}}>1000 تومان</div>
-                <div className="col-md-11" style={{marginLeft:'15px' , marginTop:'15px'}}>
-                  <button className="login-btn" style={{ cursor:'pointer' , color:'white' , width:'210px'}}>نهایی کردن سفارش</button>
-                </div>
+              {/* <OrderedFood /> */}
+              {foodItems}
+              <div className="col-md-6 text-left" style={{marginTop:'13px',marginRight:'13px'}}>هزینه کل</div>
+              <div className="col-md-4 text-left" style={{marginTop:'13px'}}>{total} تومان</div>
+              <div className="col-md-11" style={{marginLeft:'15px' , marginTop:'15px'}}>
+                <button className="login-btn" style={{ cursor:'pointer' , color:'white' , width:'210px'}}>نهایی کردن سفارش</button>
+              </div>
           </div> 
       );
 
@@ -49,12 +49,8 @@ class Sidebar extends Component {
     return (
       <div className="position-fixed">
           <div className=".container-fluid sidebar">
-          {/* <div className="row text-center" style={{position : "fixed"}}>
-            <img src={figCartEmpty} style={this.emptyStyle}></img>
-            <p>سبد خرید خالی است</p>
-          </div> */}
-          {sidebarContent}
-        </div>
+            {sidebarContent}
+          </div>
       </div>
     )
   }

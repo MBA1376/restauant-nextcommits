@@ -54,6 +54,7 @@ class Navbar extends Component {
 
     render() {
         const {isAuthenticated , user} = this.props.auth;
+        const {addedItems} = this.props.menu;
 
         const guestLinks = (
             <ul className="navbar-nav">
@@ -120,7 +121,7 @@ class Navbar extends Component {
                             {/* <li className="nav-item"><i className="fa fa-user-circle-o"></i></li> */}
                             <li className="nav-item"> 
                                 <a className="nav-link" href="#">
-                                    <span className="fa-stack fa-2x has-badge" data-count="1">
+                                    <span className="fa-stack fa-2x has-badge" data-count={addedItems.length?addedItems.length : 0}>
                                         <i className="fa fa-circle fa-stack-2x fa-inverse"></i>
                                         <i className="fa fa-shopping-cart fa-stack-2x red-cart"></i>
                                     </span>
@@ -153,7 +154,8 @@ Navbar.propTypes = {
 }
 
 const mapStateToProps = state => ({
-    auth : state.auth 
+    auth : state.auth ,
+    menu : state.menu
 });
 
 export default connect(mapStateToProps)(Navbar);
